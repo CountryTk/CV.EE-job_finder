@@ -24,7 +24,7 @@ class Label(QFrame):
 
         self.layout = QHBoxLayout()
 
-        self.name = QLabel("<font color=#8E2DE2>" + self.text + "</font>")
+        self.name = QLabel("<h3 color=#8E2DE2>" + self.text + "</h3>")
         self.clickable_url = QLabel("<font color=#396afc>" + self.url + "</font>")
 
         self.layout.addWidget(self.name)
@@ -36,6 +36,10 @@ class Label(QFrame):
 
     def mousePressEvent(self, QMouseEvent):
         webbrowser.open(self.url)
+
+    def mouseMoveEvent(self, QMouseEvent):
+
+        self.setCursor(Qt.ArrowCursor)
 
 
 class Browser(QWebEngineView):
@@ -95,9 +99,10 @@ class Contents(QWidget):
 
         self.content_widget = QWidget()
         self.scroll_area = QScrollArea()
+
         self.layout = QVBoxLayout(self.content_widget)
 
-        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setWidgetResizable(False)
 
         self.scroll_area.setWidget(self.content_widget)
 
@@ -278,8 +283,9 @@ class Tabs(QWidget):
 
     def showInfo(self, inf):
 
-        self.contents.layout.addWidget(Label(str(inf[0]), str(inf[1])))
-
+        # self.contents.layout.addWidget(Label(str(inf[0]), str(inf[1])))
+        # self.contents.layout.addWidget(QLabel(str(inf)))
+        webbrowser.open(inf[1])
         QTest.qWait(1000)
 
 
@@ -317,8 +323,10 @@ class Scraper(QThread):
     def run(self):
 
         i = 0
-        # interested_in = ["Qt", "Python", "Flask", "C++", "iOS", "Swift"]
         interested_in = self.keywords
+        i += 1
+
+        print("Searching, current page number: {}".format(i))
         while True:
             url = "https://www.cv.ee/toopakkumised/harjumaa/infotehnoloogia?page={}".format(i)
             try:
@@ -351,10 +359,6 @@ class Scraper(QThread):
             except Exception as E:
                 print("Breaking?")
                 break
-
-            i +=1
-
-            print("Searching, current page number: {}".format(i))
 
 
 app = QApplication(sys.argv)
