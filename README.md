@@ -1,4 +1,13 @@
 # CV.EE-job_finder
+
+# How to install?
+
+1. Clone this repo
+2. Use pip install -r requirements.txt to install the required packages
+3. Run the main.py file
+
+# Overview
+
 Use this simple GUI to find jobs with the keywords you want
 
 
