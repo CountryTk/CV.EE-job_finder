@@ -357,7 +357,7 @@ class Scraper(QThread):
                             pass
 
             except Exception as E:
-                print("Breaking?")
+                print("breaking, reason: {}".format(str(E)))
                 break
 
 
